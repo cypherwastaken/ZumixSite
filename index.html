@@ -1,3 +1,7 @@
+<!--
+ Made by @94to on Discord
+-->
+
 <!DOCTYPE html>
 <html lang="en">
 <head>
@@ -9,22 +13,34 @@
         body {
             margin: 0;
             font-family: Arial, sans-serif;
-            background-color: #1a1a2e;
             color: #ffffff;
             display: flex;
             flex-direction: column;
             align-items: center;
-            justify-content: center;
+            justify-content: flex-start;
             height: auto;
-            transition: background-color 0.3s ease;
+            min-height: 100vh;
+            overflow-x: hidden;
+            position: relative;
+            background: linear-gradient(135deg, #1a1a2e, #162447);
+            background-size: 300% 300%;
+            animation: gradientAnimation 15s ease infinite;
         }
+
+        @keyframes gradientAnimation {
+            0% { background-position: 0% 50%; }
+            50% { background-position: 100% 50%; }
+            100% { background-position: 0% 50%; }
+        }
+
         h1 {
-            margin-bottom: 20px;
+            margin: 20px 0;
             font-size: 2.5em;
             text-align: center;
             opacity: 0;
             animation: fadeIn 1s forwards;
         }
+
         p {
             margin: 10px 0;
             font-size: 1.2em;
@@ -33,6 +49,7 @@
             opacity: 0;
             animation: fadeIn 1.5s forwards;
         }
+
         .discord-button {
             padding: 15px 30px;
             background-color: #6f00ff;
@@ -48,11 +65,13 @@
             opacity: 0;
             animation: fadeIn 2s forwards;
         }
+
         .discord-button:hover {
             background-color: #5e00cc;
             transform: scale(1.05);
             box-shadow: 0 4px 15px rgba(0, 0, 0, 0.3);
         }
+
         iframe {
             margin-top: 20px;
             border: none;
@@ -60,6 +79,7 @@
             box-shadow: 0 4px 20px rgba(0, 0, 0, 0.5);
             opacity: 0;
             animation: fadeIn 2.5s forwards;
+            pointer-events: auto;
         }
 
         .editor-section {
@@ -67,10 +87,10 @@
             justify-content: space-between;
             align-items: center;
             margin-top: 50px;
-            margin-bottom: 40px;
+            margin-bottom: 90px;
             max-width: 1200px;
             padding: 20px;
-            background-color: #282c34;
+            background-color: #3e748e;
             border-radius: 10px;
             box-shadow: 0 4px 20px rgba(0, 0, 0, 0.5);
         }
@@ -99,6 +119,20 @@
             from { opacity: 0; }
             to { opacity: 1; }
         }
+
+        footer {
+            width: 100%;
+            background-color: rgba(0, 0, 0, 0.5); 
+            color: teal;
+            text-align: center;
+            padding: 10px 0;
+            position: absolute;
+            bottom: 0;
+        }
+
+        .heart {
+            color: teal;
+        }
     </style>
 </head>
 <body>
@@ -108,7 +142,7 @@
     <a href="https://discord.gg/YqhJegxgK6" class="discord-button">Join our Discord</a>
     <a href="https://github.com/cypherwastaken/Zumix-Executor/releases/tag/LastV4" class="discord-button">Download</a>
 
-    <iframe width="560" height="315" src="https://www.youtube.com/embed/z_jiUh-zNfQ" title="Zumix Showcase" frameborder="0" allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture" allowfullscreen style="height: 400px;"></iframe>
+    <iframe width="560" height="315" src="https://www.youtube.com/embed/z_jiUh-zNfQ" title="Zumix Showcase" allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture" allowfullscreen style="height: 400px;"></iframe>
 
     <div class="editor-section">
         <div class="editor-text">
@@ -117,5 +151,17 @@
         </div>
         <iframe src="https://zumixmonacoeditor.vercel.app/" width="600" height="400" title="Zumix Editor"></iframe>
     </div>
+
+    <footer>
+        Made with <span class="heart">❤️</span> by SQL
+    </footer>
+
+    <script>
+        document.addEventListener('mousemove', (e) => {
+            const x = e.clientX / window.innerWidth * 100;
+            const y = e.clientY / window.innerHeight * 100;
+            document.body.style.background = `radial-gradient(circle at ${x}% ${y}%, #1a1a2e, #162447)`;
+        });
+    </script>
 </body>
 </html>
