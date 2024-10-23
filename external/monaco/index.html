@@ -34,7 +34,6 @@
 
     <script src="https://www.getzumix.fun/external/vs/loader.js" type="text/javascript"></script>
     <script type="text/javascript">
-        var editor;
         if (localStorage.getItem("ExecId") === "Zum1") {
           document.getElementById('container').style.display = "block";
           require(["./vs/editor/editor.main"], function () {
@@ -47,7 +46,7 @@
                 'editor.lineHighlightBackground': "#2c4d5d"
               }
             });
-            editor = monaco.editor.create(document.getElementById('container'), {
+            const editor = monaco.editor.create(document.getElementById('container'), {
               'value': "-- Created by @94to on Discord\n-- Dont forget to join https://discord.gg/YqhJegxgK6",
               'language': "lua",
               'theme': "vs-dark",
