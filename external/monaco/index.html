@@ -66,6 +66,12 @@
         } else {
           document.getElementById('message').style.display = 'flex';
         }
+        function getValue(editor) {
+            return editor.getValue();
+        }
+        function setValue(editor, newValue) {
+            editor.setValue(newValue);
+        }
     </script>
 </body>
 </html>
