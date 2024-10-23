@@ -35,7 +35,7 @@
     <script src="./monaco/vs/loader.js" type="text/javascript"></script>
     <script type="text/javascript">
         var editor;
-        if (editor) {
+        if (localStorage.getItem("ExecId") === "Zum1") {
           document.getElementById('container').style.display = "block";
           require(["./monaco/vs/editor/editor.main"], function () {
             monaco.editor.defineTheme("cobalt", {
