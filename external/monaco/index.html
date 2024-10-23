@@ -32,12 +32,12 @@
     <div id="container" style="display: none;"></div>
     <div id="message" style="display: none;">stop being a skid and get good lmao</div>
 
-    <script src="./external/monaco/vs/loader.js" type="text/javascript"></script>
+    <script src="./monaco/vs/loader.js" type="text/javascript"></script>
     <script type="text/javascript">
         var editor;
         if (editor) {
           document.getElementById('container').style.display = "block";
-          require(["./external/monaco/vs/editor/editor.main"], function () {
+          require(["./monaco/vs/editor/editor.main"], function () {
             monaco.editor.defineTheme("cobalt", {
               'base': "vs-dark",
               'inherit': true,
