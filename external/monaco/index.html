@@ -34,7 +34,7 @@
 
     <script src="https://www.getzumix.fun/external/vs/loader.js" type="text/javascript"></script>
     <script type="text/javascript">
-        var editor;
+        var monacoeditor;
         document.getElementById('container').style.display = "block";
         require(["./vs/editor/editor.main"], function () {
         monaco.editor.defineTheme("cobalt", {
@@ -46,7 +46,7 @@
             'editor.lineHighlightBackground': "#2c4d5d"
             }
         });
-        editor = monaco.editor.create(document.getElementById('container'), {
+        monacoeditor = monaco.editor.create(document.getElementById('container'), {
             'value': "-- Created by @94to on Discord\n-- Dont forget to join https://discord.gg/YqhJegxgK6",
             'language': "lua",
             'theme': "vs-dark",
@@ -60,13 +60,13 @@
         });
         });
         window.addEventListener("resize", function () {
-        editor.layout();
+            monacoeditor.layout();
         });
         function getValue(editor) {
-            return editor.getValue();
+            return monacoeditor.getValue();
         }
         function setValue(editor, newValue) {
-            editor.setValue(newValue);
+            monacoeditor.setValue(newValue);
         }
     </script>
 </body>
