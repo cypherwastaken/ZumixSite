@@ -29,8 +29,77 @@
             100% { background-position: 0% 50%; }
         }
 
+        .topbar {
+            position: fixed;
+            top: 0;
+            left: 0;
+            right: 0;
+            height: 60px;
+            background-color: rgba(0, 0, 0, 0.5);
+            display: flex;
+            align-items: center;
+            justify-content: space-between;
+            padding: 0 20px;
+            box-shadow: 0 2px 10px rgba(0, 0, 0, 0.5);
+            z-index: 10;
+            animation: slideDown 0.5s ease;
+        }
+
+        @keyframes slideDown {
+            from { transform: translateY(-100%); }
+            to { transform: translateY(0); }
+        }
+
+        .menu-button {
+            cursor: pointer;
+            background: transparent;
+            border: none;
+            color: #ffffff;
+            font-size: 1.5em;
+        }
+
+        .dropdown {
+            display: none;
+            position: absolute;
+            top: 60px;
+            right: 20px;
+            background-color: rgba(0, 0, 0, 0.8);
+            border-radius: 5px;
+            box-shadow: 0 2px 10px rgba(0, 0, 0, 0.5);
+            z-index: 20;
+        }
+
+        .dropdown a {
+            display: block;
+            padding: 10px 20px;
+            color: #ffffff;
+            text-decoration: none;
+            transition: background-color 0.3s;
+        }
+
+        .dropdown a:hover {
+            background-color: rgba(255, 255, 255, 0.1);
+        }
+
+        .dropdown-button {
+            padding: 10px 20px;
+            background-color: #6f00ff;
+            color: #ffffff;
+            border: none;
+            border-radius: 5px;
+            cursor: pointer;
+            font-size: 1em;
+            position: relative;
+            transition: background-color 0.3s, transform 0.2s;
+        }
+
+        .dropdown-button:hover {
+            background-color: #5e00cc;
+            transform: scale(1.05);
+        }
+
         h1 {
-            margin: 20px 0;
+            margin: 80px 0 20px;
             font-size: 2.5em;
             text-align: center;
             opacity: 0;
@@ -44,36 +113,6 @@
             max-width: 600px;
             opacity: 0;
             animation: fadeIn 1.5s forwards;
-        }
-
-        .discord-button {
-            padding: 20px 40px;
-            background-color: #6f00ff;
-            color: #ffffff;
-            margin-top: 15px;
-            border: none;
-            border-radius: 30px;
-            cursor: pointer;
-            font-size: 1.5em;
-            transition: background-color 0.3s ease, transform 0.2s ease, box-shadow 0.3s ease;
-            text-decoration: none;
-            display: inline-block;
-            opacity: 0;
-            animation: fadeIn 2s forwards;
-        }
-
-        .discord-button:hover {
-            background-color: #5e00cc;
-            transform: scale(1.05);
-            box-shadow: 0 4px 15px rgba(0, 0, 0, 0.3);
-        }
-
-        .message {
-            color: #ffcc00;
-            font-size: 0.9em;
-            margin-top: 5px;
-            opacity: 0;
-            animation: fadeIn 2.5s forwards;
         }
 
         iframe {
@@ -139,11 +178,18 @@
     </style>
 </head>
 <body>
+    <div class="topbar">
+        <div class="menu-button" id="menuButton">Zumix</div>
+        <button class="dropdown-button" id="dropdownToggle">&#9776;</button>
+        <div class="dropdown" id="dropdownMenu">
+            <a href="https://discord.gg/YqhJegxgK6">Join our Discord</a>
+            <a href="https://github.com/cypherwastaken/Zumix-Executor/releases/tag/Revamp">Download</a>
+        </div>
+    </div>
+    
     <h1>Zumix Executor</h1>
     <p>Experience seamless execution with our powerful Roblox executor. With a 86% UNC, it executes flawlessly and allows you to unlock a world of possibilities in your Roblox games.</p>
     <p>Join our community for support, updates, and more!</p>
-    <a href="https://discord.gg/YqhJegxgK6" class="discord-button" id="discordButton">Join our Discord</a>
-    <a href="https://github.com/cypherwastaken/Zumix-Executor/releases/tag/Revamp" class="discord-button" id="downloadButton">Download</a>
     <div class="message" id="statusMessage"></div>
 
     <iframe width="560" height="315" src="https://www.youtube.com/embed/Zuhi5lKDPY8" title="Zumix Showcase" allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture" allowfullscreen style="height: 400px;"></iframe>
@@ -171,8 +217,8 @@
                     message.textContent = `Download hidden: ${data.message}`;
                     message.style.opacity = 1;
 
-                    const downloadButton = document.getElementById('downloadButton');
-                    downloadButton.style.display = 'none';
+                    const dropdownMenu = document.getElementById('dropdownMenu');
+                    dropdownMenu.style.display = 'none';
                 }
             } catch (error) {
                 console.error('Error fetching status:', error);
@@ -183,6 +229,19 @@
             const x = e.clientX / window.innerWidth * 100;
             const y = e.clientY / window.innerHeight * 100;
             document.body.style.background = `radial-gradient(circle at ${x}% ${y}%, #1a1a2e, #162447)`;
+        });
+
+        const dropdownToggle = document.getElementById('dropdownToggle');
+        const dropdownMenu = document.getElementById('dropdownMenu');
+
+        dropdownToggle.addEventListener('click', () => {
+            const isVisible = dropdownMenu.style.display === 'block';
+            dropdownMenu.style.display = isVisible ? 'none' : 'block';
+        });
+        window.addEventListener('click', (e) => {
+            if (!dropdownToggle.contains(e.target) && !dropdownMenu.contains(e.target)) {
+                dropdownMenu.style.display = 'none';
+            }
         });
     </script>
 </body>
