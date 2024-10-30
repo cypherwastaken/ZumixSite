@@ -139,7 +139,8 @@
                 connectButton.addEventListener("click", async () => {
                     const enteredSessionId = sessionIdInput.value.trim();
                     console.log("Attempting to connect with Session ID:", enteredSessionId);
-                    if (await checkSessionId(enteredSessionId)) {
+                    const isValid = await checkSessionId(enteredSessionId);
+                    if (isValid) {
                         localStorage.setItem("ZumixSessionId", enteredSessionId);
                         showNotification("Connected!");
                         sessionModal.style.display = "none";
@@ -151,6 +152,10 @@
                 executeButton.addEventListener("click", async () => {
                     console.log("Execute button clicked.");
                     const sessionId = localStorage.getItem("ZumixSessionId");
+                    if (!sessionId) {
+                        showNotification("No session ID found.");
+                        return;
+                    }
                     const executecode = editor.getValue();
                     console.log("Executing code:", executecode);
                     try {
@@ -171,9 +176,12 @@
                 });
 
                 async function checkSessionId(sessionId) {
+                    console.log("Checking session ID:", sessionId);
                     try {
                         const snapshot = await database.ref(`sessions/${sessionId}`).once('value');
-                        return snapshot.exists();
+                        const exists = snapshot.exists();
+                        console.log("Session ID exists:", exists);
+                        return exists;
                     } catch (error) {
                         console.error("Error checking session ID:", error);
                         return false;
