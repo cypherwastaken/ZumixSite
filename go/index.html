@@ -173,6 +173,7 @@
                 clearButton.addEventListener("click", () => {
                     console.log("Clear button clicked.");
                     editor.setValue('');
+                    showNotification("Cleared!");
                 });
 
                 async function checkSessionId(sessionId) {
