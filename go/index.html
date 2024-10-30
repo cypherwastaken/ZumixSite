@@ -93,13 +93,14 @@
     </div>
     
     <script src="https://unpkg.com/monaco-editor/min/vs/loader.js"></script>
-    <script>
+    <script type="module">
+        import { initializeApp } from 'https://www.gstatic.com/firebasejs/9.0.0/firebase-app.js';
+        import { getDatabase, ref, get } from 'https://www.gstatic.com/firebasejs/9.0.0/firebase-database.js';
+
         require.config({ paths: { 'vs': 'https://unpkg.com/monaco-editor/min/vs' }});
         require(['vs/editor/editor.main'], async function() {
             console.log("Monaco Editor loaded.");
-            const { initializeApp } = await import('https://www.gstatic.com/firebasejs/9.0.0/firebase-app.js');
-            const { getDatabase } = await import('https://www.gstatic.com/firebasejs/9.0.0/firebase-database.js');
-
+            
             const firebaseConfig = {
                 databaseURL: "https://zumixgo-api-default-rtdb.firebaseio.com/"
             };
@@ -170,7 +171,8 @@
             async function checkSessionId(sessionId) {
                 console.log("Checking session ID:", sessionId);
                 try {
-                    const snapshot = await database.ref(`sessions/${sessionId}`).once('value');
+                    const sessionRef = ref(database, `sessions/${sessionId}`);
+                    const snapshot = await get(sessionRef);
                     const exists = snapshot.exists();
                     console.log("Session ID exists:", exists);
                     return exists;
