@@ -126,7 +126,7 @@
                 sessionModal.style.display = "flex";
             } else {
                 var x = checkSessionId(sessionId);
-                if (x == false) {
+                if (x == "false" || x == false) {
                     localStorage.removeItem("ZumixSessionId");
                     window.location.reload();
                 }
