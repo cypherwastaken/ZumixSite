@@ -1,0 +1,209 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Zumix Monaco Interface</title>
+    <style>
+        body {
+            margin: 0;
+            font-family: Arial, sans-serif;
+            background-color: #1e1e1e;
+            color: white;
+            overflow: hidden;
+            animation: fadeIn 0.5s;
+        }
+
+        #iframe-container {
+            width: 100%;
+            height: calc(100vh - 100px);
+            display: flex;
+            justify-content: center;
+            align-items: center;
+        }
+
+        #iframe-container iframe {
+            width: 100%;
+            height: 100%;
+            border: none;
+        }
+
+        .button-container {
+            display: flex;
+            justify-content: center;
+            margin: 20px 0;
+        }
+
+        button {
+            padding: 10px 20px;
+            margin: 0 10px;
+            border: none;
+            border-radius: 5px;
+            background-color: #007acc;
+            color: white;
+            cursor: pointer;
+            transition: background-color 0.3s;
+        }
+
+        button:hover {
+            background-color: #005f8c;
+        }
+
+        .modal {
+            display: none;
+            position: fixed;
+            z-index: 1000;
+            left: 0;
+            top: 0;
+            width: 100%;
+            height: 100%;
+            background-color: rgba(0, 0, 0, 0.7);
+            justify-content: center;
+            align-items: center;
+        }
+
+        .modal-content {
+            background-color: #2e2e2e;
+            padding: 20px;
+            border-radius: 10px;
+            text-align: center;
+            animation: modalFadeIn 0.5s;
+        }
+
+        input {
+            padding: 10px;
+            margin-top: 10px;
+            width: 100%;
+            border: none;
+            border-radius: 5px;
+        }
+
+        .notification {
+            display: none;
+            position: absolute;
+            top: 20px;
+            left: 20px;
+            background-color: #28a745;
+            color: white;
+            padding: 10px;
+            border-radius: 5px;
+            transition: opacity 0.3s;
+        }
+
+        @keyframes fadeIn {
+            from { opacity: 0; }
+            to { opacity: 1; }
+        }
+
+        @keyframes modalFadeIn {
+            from { opacity: 0; }
+            to { opacity: 1; }
+        }
+    </style>
+</head>
+<body>
+    <div id="notification" class="notification">Connected!</div>
+    
+    <div id="iframe-container">
+        <iframe id="monaco-iframe" src="https://www.getzumix.fun/external/monaco" frameborder="0"></iframe>
+    </div>
+
+    <div class="button-container">
+        <button id="execute-button">Execute</button>
+        <button id="clear-button">Clear</button>
+    </div>
+
+    <div id="session-modal" class="modal">
+        <div class="modal-content">
+            <h2>Enter Session ID</h2>
+            <input type="text" id="session-id-input" placeholder="Session ID">
+            <button id="connect-button">Connect</button>
+        </div>
+    </div>
+
+    <script src="https://www.gstatic.com/firebasejs/9.6.1/firebase-app.js"></script>
+    <script src="https://www.gstatic.com/firebasejs/9.6.1/firebase-database.js"></script>
+    <script>
+        // Firebase configuration
+        const firebaseConfig = {
+            databaseURL: "https://zumixgo-api-default-rtdb.firebaseio.com/"
+        };
+
+        // Initialize Firebase
+        firebase.initializeApp(firebaseConfig);
+        const database = firebase.database();
+
+        document.addEventListener("DOMContentLoaded", () => {
+    const sessionModal = document.getElementById("session-modal");
+    const sessionIdInput = document.getElementById("session-id-input");
+    const connectButton = document.getElementById("connect-button");
+    const notification = document.getElementById("notification");
+    const executeButton = document.getElementById("execute-button");
+    const clearButton = document.getElementById("clear-button");
+
+    const sessionId = localStorage.getItem("ZumixSessionId");
+    if (!sessionId) {
+        sessionModal.style.display = "flex"; // Show modal if no session ID
+    } else {
+        checkSessionId(sessionId);
+    }
+
+    connectButton.addEventListener("click", async () => {
+        const enteredSessionId = sessionIdInput.value.trim();
+        if (await checkSessionId(enteredSessionId)) {
+            localStorage.setItem("ZumixSessionId", enteredSessionId);
+            showNotification("Connected!");
+            sessionModal.style.display = "none";
+        } else {
+            alert("Invalid session ID.");
+        }
+    });
+
+    executeButton.addEventListener("click", () => {
+        const sessionId = localStorage.getItem("ZumixSessionId");
+        const iframe = document.getElementById("monaco-iframe");
+        // Send message to iframe to get the value
+        iframe.contentWindow.postMessage({ action: 'getValue' }, '*');
+
+        // Listen for messages from the iframe
+        window.addEventListener("message", async (event) => {
+            if (event.origin !== "https://www.getzumix.fun") return; // Validate origin
+            if (event.data.action === 'returnValue') {
+                const executecode = event.data.value; // Get the value from iframe
+
+                // Update Firebase with needsexecute = true and the retrieved executecode
+                await database.ref(`sessions/${sessionId}`).update({
+                    needsexecute: true,
+                    executecode: executecode
+                });
+                showNotification("Code executed successfully!");
+            }
+        }, { once: true }); // Listen only once for this event
+    });
+
+    clearButton.addEventListener("click", () => {
+        const iframe = document.getElementById("monaco-iframe");
+        iframe.contentWindow.postMessage({ action: 'setValue', value: '' }, '*');
+    });
+
+    async function checkSessionId(sessionId) {
+        try {
+            const snapshot = await database.ref(`sessions/${sessionId}`).once('value');
+            return snapshot.exists(); // Return true if session ID is valid
+        } catch (error) {
+            console.error("Error checking session ID:", error);
+            return false;
+        }
+    }
+
+    function showNotification(message) {
+        notification.textContent = message;
+        notification.style.display = "block";
+        setTimeout(() => {
+            notification.style.display = "none";
+        }, 2000);
+    }
+});
+    </script>
+</body>
+</html>
