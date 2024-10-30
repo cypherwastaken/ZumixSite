@@ -89,7 +89,7 @@
 
     <div class="button-container">
         <button id="execute-button">Execute</button>
-        <button id="clear-button">Clear</button>
+        <button id="clear-button" onclick="clear()">Clear</button>
     </div>
 
     <div id="session-modal" class="modal">
@@ -153,6 +153,10 @@
                     });
                     showNotification("Executed!");
                 });
+
+                function clear() {
+                    editor.setValue('');
+                }
 
                 clearButton.addEventListener("click", () => {
                     editor.setValue('');
