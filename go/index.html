@@ -3,7 +3,7 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Zumix Go</title>
+    <title>Zumix Monaco Interface</title>
     <style>
         body {
             margin: 0;
@@ -64,7 +64,7 @@
         input {
             padding: 10px;
             margin-top: 10px;
-            width: calc(100% - 20px);
+            width: 100%;
             border: none;
             border-radius: 5px;
         }
@@ -90,22 +90,7 @@
             from { opacity: 0; }
             to { opacity: 1; }
         }
-
-        .modal-content button {
-            margin-top: 10px;
-        }
     </style>
-    <script src="https://cdnjs.cloudflare.com/ajax/libs/require.js/2.3.6/require.min.js"></script>
-    <script>
-        require.config({ paths: { 'vs': 'https://unpkg.com/monaco-editor/min/vs' }});
-        require(['vs/editor/editor.main'], function() {
-            window.editor = monaco.editor.create(document.getElementById('editor-container'), {
-                value: '',
-                language: 'javascript',
-                theme: 'vs-dark'
-            });
-        });
-    </script>
 </head>
 <body>
     <div id="notification" class="notification">Connected!</div>
@@ -125,74 +110,82 @@
         </div>
     </div>
 
-    <script src="https://www.gstatic.com/firebasejs/8.10.0/firebase-app.js"></script>
-    <script src="https://www.gstatic.com/firebasejs/8.10.0/firebase-database.js"></script>
+    <script src="https://www.gstatic.com/firebasejs/9.0.0/firebase-app.js"></script>
+    <script src="https://www.gstatic.com/firebasejs/9.0.0/firebase-database.js"></script>
+    <script src="https://unpkg.com/monaco-editor/min/vs/loader.js"></script>
     <script>
         const firebaseConfig = {
             databaseURL: "https://zumixgo-api-default-rtdb.firebaseio.com/"
         };
-
         firebase.initializeApp(firebaseConfig);
         const database = firebase.database();
 
-        document.addEventListener("DOMContentLoaded", () => {
-            const sessionModal = document.getElementById("session-modal");
-            const sessionIdInput = document.getElementById("session-id-input");
-            const connectButton = document.getElementById("connect-button");
-            const notification = document.getElementById("notification");
-            const executeButton = document.getElementById("execute-button");
-            const clearButton = document.getElementById("clear-button");
-
-            const sessionId = localStorage.getItem("ZumixSessionId");
-            if (!sessionId) {
-                sessionModal.style.display = "flex";
-            } else {
-                checkSessionId(sessionId);
-            }
-
-            connectButton.addEventListener("click", async () => {
-                const enteredSessionId = sessionIdInput.value.trim();
-                if (await checkSessionId(enteredSessionId)) {
-                    localStorage.setItem("ZumixSessionId", enteredSessionId);
-                    showNotification("Connected!");
-                    sessionModal.style.display = "none";
-                } else {
-                    alert("Invalid session ID.");
-                }
+        require.config({ paths: { 'vs': 'https://unpkg.com/monaco-editor/min/vs' }});
+        require(['vs/editor/editor.main'], function() {
+            window.editor = monaco.editor.create(document.getElementById('editor-container'), {
+                value: '',
+                language: 'javascript',
+                theme: 'vs-dark'
             });
 
-            executeButton.addEventListener("click", async () => {
+            document.addEventListener("DOMContentLoaded", () => {
+                const sessionModal = document.getElementById("session-modal");
+                const sessionIdInput = document.getElementById("session-id-input");
+                const connectButton = document.getElementById("connect-button");
+                const notification = document.getElementById("notification");
+                const executeButton = document.getElementById("execute-button");
+                const clearButton = document.getElementById("clear-button");
+
                 const sessionId = localStorage.getItem("ZumixSessionId");
-                const executecode = editor.getValue();
-
-                await database.ref(`sessions/${sessionId}`).update({
-                    needsexecute: true,
-                    executecode: executecode
-                });
-                showNotification("Executed!");
-            });
-
-            clearButton.addEventListener("click", () => {
-                editor.setValue('');
-            });
-
-            async function checkSessionId(sessionId) {
-                try {
-                    const snapshot = await database.ref(`sessions/${sessionId}`).once('value');
-                    return snapshot.exists();
-                } catch (error) {
-                    console.error("Error checking session ID:", error);
-                    return false;
+                if (!sessionId) {
+                    sessionModal.style.display = "flex";
+                } else {
+                    checkSessionId(sessionId);
                 }
-            }
 
-            function showNotification(message) {
-                notification.textContent = message;
-                notification.style.display = "block";
-                setTimeout(() => {
-                    notification.style.display = "none";
-                }, 2000);
-            }
+                connectButton.addEventListener("click", async () => {
+                    const enteredSessionId = sessionIdInput.value.trim();
+                    if (await checkSessionId(enteredSessionId)) {
+                        localStorage.setItem("ZumixSessionId", enteredSessionId);
+                        showNotification("Connected!");
+                        sessionModal.style.display = "none";
+                    } else {
+                        alert("Invalid session ID.");
+                    }
+                });
+
+                executeButton.addEventListener("click", async () => {
+                    const sessionId = localStorage.getItem("ZumixSessionId");
+                    const executecode = editor.getValue();
+                    await database.ref(`sessions/${sessionId}`).update({
+                        needsexecute: true,
+                        executecode: executecode
+                    });
+                    showNotification("Code executed successfully!");
+                });
+
+                clearButton.addEventListener("click", () => {
+                    editor.setValue('');
+                });
+
+                async function checkSessionId(sessionId) {
+                    try {
+                        const snapshot = await database.ref(`sessions/${sessionId}`).once('value');
+                        return snapshot.exists();
+                    } catch (error) {
+                        console.error("Error checking session ID:", error);
+                        return false;
+                    }
+                }
+
+                function showNotification(message) {
+                    notification.textContent = message;
+                    notification.style.display = "block";
+                    setTimeout(() => {
+                        notification.style.display = "none";
+                    }, 2000);
+                }
+            });
         });
     </script>
 </body>
