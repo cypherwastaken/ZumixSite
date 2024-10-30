@@ -95,7 +95,7 @@
     <script src="https://unpkg.com/monaco-editor/min/vs/loader.js"></script>
     <script type="module">
         import { initializeApp } from 'https://www.gstatic.com/firebasejs/9.0.0/firebase-app.js';
-        import { getDatabase, ref, get } from 'https://www.gstatic.com/firebasejs/9.0.0/firebase-database.js';
+        import { getDatabase, ref, get, update } from 'https://www.gstatic.com/firebasejs/9.0.0/firebase-database.js';
 
         require.config({ paths: { 'vs': 'https://unpkg.com/monaco-editor/min/vs' }});
         require(['vs/editor/editor.main'], async function() {
@@ -125,7 +125,11 @@
             if (!sessionId) {
                 sessionModal.style.display = "flex";
             } else {
-                checkSessionId(sessionId);
+                var x = checkSessionId(sessionId);
+                if (x == false) {
+                    localStorage.removeItem("ZumixSessionId");
+                    window.location.reload();
+                }
             }
 
             connectButton.addEventListener("click", async () => {
@@ -151,7 +155,7 @@
                 const executecode = editor.getValue();
                 console.log("Executing code:", executecode);
                 try {
-                    await database.ref(`sessions/${sessionId}`).update({
+                    await update(ref(database, `sessions/${sessionId}`), {
                         needsexecute: true,
                         executecode: executecode
                     });
