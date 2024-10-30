@@ -82,6 +82,7 @@
     <div class="button-container">
         <button id="execute-button">Execute</button>
         <button id="clear-button">Clear</button>
+        <button id="logout-button">Disconnect</button>
     </div>
 
     <div id="session-modal" class="modal">
@@ -120,6 +121,7 @@
             const notification = document.getElementById("notification");
             const executeButton = document.getElementById("execute-button");
             const clearButton = document.getElementById("clear-button");
+            const logoutButton = document.getElementById("logout-button");
 
             const sessionId = localStorage.getItem("ZumixSessionId");
             if (!sessionId) {
@@ -144,6 +146,11 @@
                     showNotification("Invalid session ID.");
                 }
             });
+
+            logoutButton.addEventListener("click", async () => {
+                localStorage.removeItem("ZumixSessionId");
+                window.location.reload();
+            }
 
             executeButton.addEventListener("click", async () => {
                 console.log("Execute button clicked.");
