@@ -89,7 +89,7 @@
 
     <div class="button-container">
         <button id="execute-button">Execute</button>
-        <button id="clear-button" onclick="clear()">Clear</button>
+        <button id="clear-button">Clear</button>
     </div>
 
     <div id="session-modal" class="modal">
@@ -147,16 +147,18 @@
                 executeButton.addEventListener("click", async () => {
                     const sessionId = localStorage.getItem("ZumixSessionId");
                     const executecode = editor.getValue();
-                    await database.ref(`sessions/${sessionId}`).update({
-                        needsexecute: true,
-                        executecode: executecode
-                    });
-                    showNotification("Executed!");
+                    console.log("Executing code:", executecode); // Debug log
+                    try {
+                        await database.ref(`sessions/${sessionId}`).update({
+                            needsexecute: true,
+                            executecode: executecode
+                        });
+                        showNotification("Executed!");
+                    } catch (error) {
+                        console.error("Execution error:", error);
+                        showNotification("Execution failed.");
+                    }
                 });
-
-                function clear() {
-                    editor.setValue('');
-                }
 
                 clearButton.addEventListener("click", () => {
                     editor.setValue('');
