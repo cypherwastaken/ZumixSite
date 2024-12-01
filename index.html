@@ -1,283 +1,140 @@
 <!DOCTYPE html>
 <html lang="en">
 <head>
-    <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Zumix</title>
-    <link rel="shortcut icon" href="logo.png">
-    <meta name="Zumix" content="Unlock the full potential of your Roblox experience with Zumix, the ultimate executor designed for seamless and efficient script execution. With an impressive 84% UNC, Zumix empowers you to explore limitless possibilities in your favorite games. Whether you're a seasoned developer or just getting started, our intuitive editor and active community provide the tools and support you need. Join us today and elevate your Roblox adventures!">
-    <meta property="og:title" content="Zumix" />
-    <meta property="og:description" content="Enhance your executing experience with Zumix." />
-    <meta property="og:image" content="logo.png" />
-    <meta property="og:url" content="https://getzumix.fun" />
-    <style>
-        body {
-            margin: 0;
-            font-family: Arial, sans-serif;
-            color: #ffffff;
-            display: flex;
-            flex-direction: column;
-            align-items: center;
-            justify-content: flex-start;
-            min-height: 100vh;
-            overflow-x: hidden;
-            background: linear-gradient(135deg, #0c0a20, #4b0e80);
-            background-size: 300% 300%;
-            animation: gradientAnimation 10s ease infinite;
-            position: relative;
-        }
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Zumix</title>
+  <link rel="shortcut icon" href="logo.png">
+  <meta name="Zumix" content="Unlock the full potential of your Roblox experience with Zumix, the ultimate executor designed for seamless and efficient script execution. With an impressive 84% UNC, Zumix empowers you to explore limitless possibilities in your favorite games. Whether you're a seasoned developer or just getting started, our intuitive editor and active community provide the tools and support you need. Join us today and elevate your Roblox adventures!">
+  <meta property="og:title" content="Zumix" />
+  <meta property="og:description" content="Enhance your executing experience with Zumix." />
+  <meta property="og:image" content="logo.png" />
+  <meta property="og:url" content="https://getzumix.fun" />
+  <style>
+    body {
+      margin: 0;
+      padding: 0;
+      font-family: Arial, sans-serif;
+      background-color: #121212;
+      color: #ffffff;
+      display: flex;
+      justify-content: center;
+      align-items: center;
+      height: 100vh;
+      overflow: hidden;
+    }
 
-        @keyframes gradientAnimation {
-            0% { background-position: 0% 50%; }
-            50% { background-position: 100% 50%; }
-            100% { background-position: 0% 50%; }
-        }
+    #main-container {
+      text-align: center;
+      animation: fadeIn 1s ease-out;
+    }
 
-        .snowflake {
-            position: absolute;
-            color: white;
-            font-size: 1em;
-            pointer-events: none;
-            animation: fall linear infinite;
-            user-select: none;
-        }
+    h1 {
+      font-size: 3rem;
+      color: #bb86fc;
+      margin-bottom: 1rem;
+      text-shadow: 0 0 5px #bb86fc, 0 0 10px #bb86fc;
+    }
 
-        @keyframes fall {
-            to {
-                transform: translateY(100vh);
-            }
-        }
+    p {
+      font-size: 1.2rem;
+      margin-bottom: 2rem;
+      color: #e0e0e0;
+    }
 
-        .topbar {
-            position: fixed;
-            top: 0;
-            left: 0;
-            right: 0;
-            height: 60px;
-            background-color: rgba(0, 0, 0, 0.8);
-            display: flex;
-            align-items: center;
-            justify-content: space-between;
-            padding: 0 20px;
-            box-shadow: 0 2px 10px rgba(0, 0, 0, 0.5);
-            z-index: 10;
-            animation: slideDown 0.5s ease;
-        }
+    .buttons {
+      display: flex;
+      justify-content: center;
+      gap: 1.5rem;
+    }
 
-        @keyframes slideDown {
-            from { transform: translateY(-100%); }
-            to { transform: translateY(0); }
-        }
+    .icon-button {
+      background-color: #1f1f1f;
+      border: none;
+      color: #bb86fc;
+      padding: 1rem 2rem;
+      font-size: 1rem;
+      border-radius: 8px;
+      cursor: pointer;
+      display: flex;
+      align-items: center;
+      gap: 0.5rem;
+      box-shadow: 0 4px 6px rgba(0, 0, 0, 0.3);
+      transition: transform 0.2s, box-shadow 0.2s;
+    }
 
-        .menu-button {
-            cursor: pointer;
-            background: transparent;
-            border: none;
-            color: #ffffff;
-            font-size: 1.5em;
-        }
+    .icon-button svg {
+      width: 24px;
+      height: 24px;
+      fill: #bb86fc;
+    }
 
-        .dropdown {
-            display: none;
-            position: absolute;
-            top: 60px;
-            right: 20px;
-            background-color: rgba(50, 50, 50, 0.9);
-            border-radius: 5px;
-            box-shadow: 0 2px 10px rgba(0, 0, 0, 0.5);
-            z-index: 20;
-        }
+    .icon-button:hover {
+      transform: translateY(-3px);
+      box-shadow: 0 6px 8px rgba(0, 0, 0, 0.5);
+    }
 
-        .dropdown a {
-            display: block;
-            padding: 10px 20px;
-            color: #ffffff;
-            text-decoration: none;
-            transition: background-color 0.3s;
-        }
+    .icon-button:active {
+      transform: translateY(2px);
+      box-shadow: 0 2px 4px rgba(0, 0, 0, 0.2);
+    }
 
-        .dropdown a:hover {
-            background-color: rgba(255, 255, 255, 0.1);
-        }
+    @keyframes fadeIn {
+      from {
+        opacity: 0;
+        transform: translateY(10px);
+      }
+      to {
+        opacity: 1;
+        transform: translateY(0);
+      }
+    }
+  </style>
+<style>
+  .video-container {
+    margin-bottom: 2rem;
+    border-radius: 12px;
+    overflow: hidden;
+    box-shadow: 0 4px 8px rgba(0, 0, 0, 0.5);
+    max-width: 560px;
+    margin: 0 auto 2rem;
+  }
 
-        .dropdown-button {
-            padding: 10px 20px;
-            background-color: #4b0e80;
-            color: #ffffff;
-            border: none;
-            border-radius: 5px;
-            cursor: pointer;
-            font-size: 1em;
-            position: relative;
-            transition: background-color 0.3s, transform 0.2s;
-        }
+  .video-container iframe {
+    width: 100%;
+    height: 315px;
+    border: none;
+  }
+</style>
 
-        .dropdown-button:hover {
-            background-color: #3d0b6d;
-            transform: scale(1.05);
-        }
-
-        h1 {
-            margin: 80px 0 20px;
-            font-size: 2.5em;
-            text-align: center;
-            opacity: 0;
-            animation: fadeIn 1s forwards, float 3s ease-in-out infinite;
-        }
-
-        @keyframes float {
-            0%, 100% { transform: translateY(0); }
-            50% { transform: translateY(-10px); }
-        }
-
-        p {
-            margin: 10px 0;
-            font-size: 1.2em;
-            text-align: center;
-            max-width: 600px;
-            opacity: 0;
-            animation: fadeIn 1.5s forwards;
-        }
-
-        iframe {
-            margin-top: 20px;
-            border: none;
-            border-radius: 10px;
-            box-shadow: 0 4px 20px rgba(0, 0, 0, 0.5);
-            opacity: 0;
-            animation: fadeIn 2.5s forwards;
-            pointer-events: auto;
-        }
-
-        .editor-section {
-            display: flex;
-            justify-content: space-between;
-            align-items: center;
-            margin: 50px 20px;
-            max-width: 1200px;
-            padding: 20px;
-            border-radius: 10px;
-            box-shadow: 0 4px 20px rgba(0, 0, 0, 0.5);
-            background-color: rgba(30, 30, 30, 0.8);
-        }
-
-        .editor-text {
-            max-width: 600px;
-            margin-right: 20px;
-        }
-
-        @media (max-width: 768px) {
-            .editor-section {
-                flex-direction: column;
-                align-items: center;
-            }
-            .editor-text {
-                margin-right: 0;
-                margin-bottom: 20px;
-            }
-            iframe {
-                width: 100%;
-                height: 300px;
-            }
-        }
-
-        @keyframes fadeIn {
-            from { opacity: 0; }
-            to { opacity: 1; }
-        }
-
-        footer {
-            width: 100%;
-            background-color: rgba(0, 0, 0, 0.8); 
-            color: teal;
-            text-align: center;
-            padding: 10px 0;
-            position: relative;
-            margin-top: auto;
-        }
-
-        .heart {
-            color: teal;
-        }
-    </style>
 </head>
 <body>
-    <div class="topbar">
-        <div class="menu-button" id="menuButton">Zumix</div>
-        <button class="dropdown-button" id="dropdownToggle">&#9776;</button>
-        <div class="dropdown" id="dropdownMenu">
-            <a href="https://discord.gg/YqhJegxgK6">Join our Discord</a>
-            <a href="https://link-center.net/1251668/zumix-bootstrapper">Get Zumix</a>
-            <a href="https://www.getzumix.fun/go/download">Get Zumix Go</a>
-            <a href="https://www.getzumix.fun/go">Zumix Go Dashboard</a>
-        </div>
+  <div id="main-container">
+    <h1>Zumix</h1>
+    <p>Zumix is a cutting-edge Roblox executor with an impressive 84% UNC, providing seamless performance and reliability for all your scripting needs.</p>
+    <div class="video-container">
+  <iframe 
+    src="https://www.youtube.com/embed/pqdELaXg1QI" 
+    frameborder="0" 
+    allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture" 
+    allowfullscreen>
+  </iframe>
+</div>
+    <div class="buttons">
+      <button class="icon-button" onclick="window.location.href='https://link-center.net/1251668/zumix-bootstrapper'">
+        <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24">
+          <path d="M12 16l6-6h-4V2h-4v8H6zM4 18v2h16v-2H4z"/>
+        </svg>
+        Download
+      </button>
+      <button class="icon-button" onclick="window.location.href='https://discord.gg/YqhJegxgK6'">
+  <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 50 50" width="24px" height="24px">
+    <path d="M 41.625 10.769531 C 37.644531 7.566406 31.347656 7.023438 31.078125 7.003906 C 30.660156 6.96875 30.261719 7.203125 30.089844 7.589844 C 30.074219 7.613281 29.9375 7.929688 29.785156 8.421875 C 32.417969 8.867188 35.652344 9.761719 38.578125 11.578125 C 39.046875 11.867188 39.191406 12.484375 38.902344 12.953125 C 38.710938 13.261719 38.386719 13.429688 38.050781 13.429688 C 37.871094 13.429688 37.6875 13.378906 37.523438 13.277344 C 32.492188 10.15625 26.210938 10 25 10 C 23.789063 10 17.503906 10.15625 12.476563 13.277344 C 12.007813 13.570313 11.390625 13.425781 11.101563 12.957031 C 10.808594 12.484375 10.953125 11.871094 11.421875 11.578125 C 14.347656 9.765625 17.582031 8.867188 20.214844 8.425781 C 20.0625 7.929688 19.925781 7.617188 19.914063 7.589844 C 19.738281 7.203125 19.34375 6.960938 18.921875 7.003906 C 18.652344 7.023438 12.355469 7.566406 8.320313 10.8125 C 6.214844 12.761719 2 24.152344 2 34 C 2 34.175781 2.046875 34.34375 2.132813 34.496094 C 5.039063 39.605469 12.972656 40.941406 14.78125 41 C 14.789063 41 14.800781 41 14.8125 41 C 15.132813 41 15.433594 40.847656 15.621094 40.589844 L 17.449219 38.074219 C 12.515625 36.800781 9.996094 34.636719 9.851563 34.507813 C 9.4375 34.144531 9.398438 33.511719 9.765625 33.097656 C 10.128906 32.683594 10.761719 32.644531 11.175781 33.007813 C 11.234375 33.0625 15.875 37 25 37 C 34.140625 37 38.78125 33.046875 38.828125 33.007813 C 39.242188 32.648438 39.871094 32.683594 40.238281 33.101563 C 40.601563 33.515625 40.5625 34.144531 40.148438 34.507813 C 40.003906 34.636719 37.484375 36.800781 32.550781 38.074219 L 34.378906 40.589844 C 34.566406 40.847656 34.867188 41 35.1875 41 C 35.199219 41 35.210938 41 35.21875 41 C 37.027344 40.941406 44.960938 39.605469 47.867188 34.496094 C 47.953125 34.34375 48 34.175781 48 34 C 48 24.152344 43.785156 12.761719 41.625 10.769531 Z M 18.5 30 C 16.566406 30 15 28.210938 15 26 C 15 23.789063 16.566406 22 18.5 22 C 20.433594 22 22 23.789063 22 26 C 22 28.210938 20.433594 30 18.5 30 Z M 31.5 30 C 29.566406 30 28 28.210938 28 26 C 28 23.789063 29.566406 22 31.5 22 C 33.433594 22 35 23.789063 35 26 C 35 28.210938 33.433594 30 31.5 30 Z"/>
+  </svg>
+  Discord
+</button>
+
     </div>
-    
-    <h1>Zumix Executor</h1>
-    <p>Experience seamless execution with our powerful Roblox executor. With a 83% UNC, it executes flawlessly and allows you to unlock a world of possibilities in your Roblox games.</p>
-    <p>Join our community for support, updates, and more!</p>
-    <div class="message" id="statusMessage"></div>
-
-    <iframe width="560" height="315" src="https://www.youtube.com/embed/pqdELaXg1QI" title="Zumix Showcase" allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture" allowfullscreen style="height: 400px;"></iframe>
-
-    <div class="editor-section">
-        <div class="editor-text">
-            <h2>Try our editor!</h2>
-            <p style="text-align:left;">Explore our intuitive editor designed for seamless Roblox development. Create, modify, and enhance your projects with ease. Check it out now!</p>
-        </div>
-        <iframe src="https://zumixmonacoeditor.vercel.app/showcase.html" width="600" height="400" title="Zumix Editor"></iframe>
-    </div>
-
-    <footer>
-        Made with <span class="heart">❤️</span> by vel
-    </footer>
-
-    <script>
-        document.addEventListener('DOMContentLoaded', async () => {
-            try {
-                const response = await fetch('/public_api/status.json');
-                const data = await response.json();
-
-                if (data.state === "down") {
-                    const message = document.getElementById('statusMessage');
-                    message.textContent = `Zumix is down: ${data.message}`;
-                    message.style.opacity = 1;
-
-                    const dropdownMenu = document.getElementById('dropdownMenu');
-                    dropdownMenu.style.display = 'none';
-                }
-            } catch (error) {
-                console.error('Error fetching status:', error);
-            }
-        });
-
-        const dropdownToggle = document.getElementById('dropdownToggle');
-        const dropdownMenu = document.getElementById('dropdownMenu');
-
-        dropdownToggle.addEventListener('click', () => {
-            const isVisible = dropdownMenu.style.display === 'block';
-            dropdownMenu.style.display = isVisible ? 'none' : 'block';
-        });
-        window.addEventListener('click', (e) => {
-            if (!dropdownToggle.contains(e.target) && !dropdownMenu.contains(e.target)) {
-                dropdownMenu.style.display = 'none';
-            }
-        });
-
-        function createSnowflakes() {
-            for (let i = 0; i < 50; i++) {
-                const snowflake = document.createElement('div');
-                snowflake.textContent = '⭐';
-                snowflake.className = 'snowflake';
-                snowflake.style.left = Math.random() * 100 + 'vw';
-                snowflake.style.animationDuration = Math.random() * 3 + 2 + 's';
-                snowflake.style.fontSize = Math.random() * 1 + 0.5 + 'em';
-                snowflake.style.opacity = Math.random();
-                document.body.appendChild(snowflake);
-            }
-        }
-
-        createSnowflakes();
-    </script>
+  </div>
 </body>
 </html>
