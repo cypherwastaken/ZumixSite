@@ -116,27 +116,29 @@
   </footer>
 
   <script>
-    const countdownDate = new Date("April 31, 2025 00:00:00").getTime();
+const countdownDate = Math.floor(new Date("2025-04-30T23:59:59Z").getTime() / 1000);
+const countdownElement = document.getElementById("countdown-text");
 
-    const countdownElement = document.getElementById("countdown-text");
+function updateCountdown() {
+  const now = Math.floor(Date.now() / 1000);
+  const distance = countdownDate - now;
 
-    function updateCountdown() {
-      const now = new Date().getTime();
-      const distance = countdownDate - now;
+  if (distance <= 0) {
+    countdownElement.textContent = "Soon!";
+    clearInterval(interval);
+  } else {
+    const days = Math.floor(distance / 86400);
+    const hours = Math.floor((distance % 86400) / 3600);
+    const minutes = Math.floor((distance % 3600) / 60);
+    const seconds = distance % 60;
 
-      if (distance <= 0) {
-        countdownElement.innerHTML = "Soon!";
-        clearInterval(interval);
-      } else {
-        const hours = Math.floor((distance % (1000 * 60 * 60 * 24)) / (1000 * 60 * 60));
-        const minutes = Math.floor((distance % (1000 * 60 * 60)) / (1000 * 60));
-        const seconds = Math.floor((distance % (1000 * 60)) / 1000);
+    countdownElement.textContent = `${days}d ${hours}h ${minutes}m ${seconds}s`;
+  }
+}
 
-        countdownElement.innerHTML = `${hours}:${minutes}:${seconds}`;
-      }
-    }
+const interval = setInterval(updateCountdown, 1000);
+updateCountdown();
 
-    const interval = setInterval(updateCountdown, 1000);
   </script>
 </body>
 </html>
